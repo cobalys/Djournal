@@ -20,12 +20,13 @@ This file is part of Djournal.
 from django import template
 from django.conf import settings
 from django.template import Library, TemplateSyntaxError, Template, Context
+from djournal import djournal_settings
 
 register = Library()
 
 class TagNode(template.Node):
     def render(self, context):
-        filepath = '%sdjournal/tag_menu.html' % settings.GENERATOR_DIR
+        filepath = '%sdjournal/tag_menu.html' % djournal_settings.GENERATOR_DIR
         try:
             fp = open(filepath, 'r')
             output = fp.read()
@@ -50,7 +51,7 @@ def djournal_tag_nav(parser, token):
 
 class DatesNode(template.Node):
     def render(self, context):
-        filepath = '%sdjournal/date_menu.html' % settings.GENERATOR_DIR
+        filepath = '%sdjournal/date_menu.html' % djournal_settings.GENERATOR_DIR
         try:
             fp = open(filepath, 'r')
             output = fp.read()

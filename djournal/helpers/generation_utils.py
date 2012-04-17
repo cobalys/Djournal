@@ -17,10 +17,10 @@ This file is part of Djournal.
     You should have received a copy of the GNU General Public License
     along with Djournal.  If not, see <http://www.gnu.org/licenses/>.
 '''
-from django.conf import settings
 from django.db import connection
 from django.template import Context
 from django.template.loader import get_template
+from djournal import djournal_settings
 from djournal.helpers.date import get_month_name
 import codecs
 
@@ -34,16 +34,16 @@ def generate_date_menu():
         month_number = row[1]
         year_number = row[2]
         month_name = get_month_name(month_number)
-        set = [month_number, month_name, total]
+        item = [month_number, month_name, total]
         if year_number in year_dict:
-            year_dict[year_number].append(set)
+            year_dict[year_number].append(item)
         else:
             year_dict[year_number] = []
-            year_dict[year_number].append(set)
+            year_dict[year_number].append(item)
     t = get_template('generate/date_menu.html')
     c = Context({ "year_dict": year_dict.items(),})
     output = t.render(c)
-    gendir = '%sdjournal/date_menu.html' % settings.GENERATOR_DIR
+    gendir = '%sdjournal/date_menu.html' % djournal_settings.GENERATOR_DIR
     f = codecs.open(gendir, "w")
     try:
         f.write(output)
@@ -59,7 +59,7 @@ def generate_tag_files():
     c = Context({ "tags": tags,})
     output = t.render(c)
     try:
-        gendir = '%s/djournal/tag_menu.html' % settings.GENERATOR_DIR
+        gendir = '%s/djournal/tag_menu.html' % djournal_settings.GENERATOR_DIR
         f = codecs.open(gendir, "w")
         try:
             f.write(output)

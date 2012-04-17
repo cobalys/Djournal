@@ -1,4 +1,3 @@
-import djournalsite
 import os
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 PROJECT_PARENT_PATH = os.path.abspath(os.path.join(PROJECT_PATH,".."))
@@ -100,4 +99,6 @@ LOGGING = {
 }
 
 
-GENERATOR_DIR = os.path.join(PROJECT_PATH, 'templates/cache/')
+DJOURNAL_GENERATOR_DIR = os.path.join(PROJECT_PATH, 'templates/cache/')
+DJOURNAL_JQUERY_URL = "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"
+DJOURNAL_JQUERYUI_URL = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"

@@ -19,6 +19,7 @@ This file is part of Djournal.
 '''
 from django.contrib import admin
 from django.utils.translation import ugettext as _
+from djournal import djournal_settings
 from djournal.models import Entry, Tag
 
 def enable(modeladmin, request, queryset):
@@ -68,7 +69,7 @@ class EntryAdmin(admin.ModelAdmin):
         entry.save()
         
     class Media:
-        js = ("https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js", "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js")
+        js = (djournal_settings.JQUERY_URL, djournal_settings.JQUERYUI_URL)
 
 
     def save_model(self, request, obj, form, change):
@@ -86,7 +87,7 @@ class TagAdmin(admin.ModelAdmin):
     ordering = ('name',)
     save_on_top = True    
     class Media:
-        js = ("https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js", "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js")
+        js = (djournal_settings.JQUERY_URL, djournal_settings.JQUERYUI_URL)
 
 
 

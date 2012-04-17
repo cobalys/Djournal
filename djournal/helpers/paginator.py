@@ -18,10 +18,10 @@ This file is part of Djournal.
     along with Djournal.  If not, see <http://www.gnu.org/licenses/>.
 '''
 from django.core.paginator import Paginator
-from djournal import settings
+from djournal import djournal_settings
 
 def paginate(items, page, variables):
-    p = Paginator(items, settings.PAGINATOR_MAX_RESULTS)
+    p = Paginator(items, djournal_settings.PAGINATOR_MAX_RESULTS)
     variables['page'] = page
     variables['pages'] = p.page_range
     variables['items'] = p.page(page).object_list

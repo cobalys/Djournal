@@ -23,10 +23,10 @@ from django.template import RequestContext
 from django.template.loader import get_template
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
+from djournal import djournal_settings
 from djournal.helpers.date import get_day_name, get_month_name
 from djournal.helpers.paginator import paginate
 from djournal.models import Entry, Tag
-import settings
 
 
 def entry(request, entry_id):
@@ -42,7 +42,7 @@ def entry(request, entry_id):
 
 def entries_all(request):
     variables = dict()
-    variables['title'] = settings.TITLE
+    variables['title'] = djournal_settings.TITLE
     items = Entry.objects.filter(enabled=True).order_by('-modification_date')
     if items:
         page = request.GET.get('page', 1)

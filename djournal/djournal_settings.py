@@ -26,7 +26,8 @@ SYNDICATION_SUBSCRIBERS = getattr(settings, "SYNDICATION_SUBSCRIBERS", list())
 SITEMAP_SUBSCRIBERS = getattr(settings, "SITEMAP_SUBSCRIBERS", list())
 CHANGEFREQ = getattr(settings, "SITEMAP_CHANGEFREQ", 'monthly')
 PRIORITY = getattr(settings, "SITEMAP_PRIORITY", '0.8')
-GENERATOR_DIR = getattr(settings, "SYNDICATION_GENERATOR_DIR", None)
-TEMPLATE_DIRS = getattr(settings, "TEMPLATE_DIRS", None)
-TEMPLATE_DIRS += (os.path.join(PROJECT_PATH, 'templates'),)
+GENERATOR_DIR = getattr(settings, "DJOURNAL_GENERATOR_DIR", None)
 PAGINATOR_MAX_RESULTS = 5
+
+JQUERY_URL = getattr(settings, "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js", None)
+JQUERYUI_URL = getattr(settings, "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js", None)

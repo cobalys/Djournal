@@ -1,8 +1,9 @@
 table.pagination{
-	color: #555555;
+    color: #555555;
+    font-size: small;
     font-variant: small-caps;
-	width:100%;
- 
+    font-weight: bold;
+    width: 100%;
 }
 
 *.pagination-left{

@@ -22,21 +22,23 @@ from django.utils.translation import ugettext as _
 from djournal import djournal_settings
 from djournal.models import Entry, Tag
 
-def enable(modeladmin, request, queryset):
+def publish(modeladmin, request, queryset):
     queryset.update(enabled=True)
-enable.short_description = _('Enable')
+publish.short_description = _('Publish')
 
-def disable(modeladmin, request, queryset):
+def unpublish(modeladmin, request, queryset):
     queryset.update(enabled=False)
-disable.short_description = _('Disable')
+unpublish.short_description = _('Unpublish')
     
 class EntryAdmin(admin.ModelAdmin):
     list_display = ('title', 'enabled', 'slug')
     list_display_links = ('title', 'slug')
-    ordering = ('title',)
+    ordering = ('-modification_date',)
     save_on_top = True
     list_per_page = 10
     readonly_fields = ('tags',) 
+    list_filter = ('enabled', )
+    actions = [publish, unpublish]
     fieldsets = (
             (None, {
                 'fields': ('title', 'slug', 'enabled', 'content'),

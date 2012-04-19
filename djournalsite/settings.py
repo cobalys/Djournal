@@ -76,6 +76,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'ckeditor',
     'djournal',
     'django.contrib.admin',
 )
@@ -98,6 +99,8 @@ LOGGING = {
     }
 }
 
+CKEDITOR_MEDIA_PREFIX = "http://127.0.0.1/media/ckeditor/"
+CKEDITOR_UPLOAD_PATH = "/var/www/html/media/test_uploads/"
 
 DJOURNAL_GENERATOR_DIR = os.path.join(PROJECT_PATH, 'templates/cache/')
 DJOURNAL_JQUERY_URL = "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"

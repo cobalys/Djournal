@@ -22,6 +22,8 @@ from django.db.models.signals import post_delete, post_save
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext as _
 from djournal.helpers import signals
+from ckeditor.fields import RichTextField
+
 
 class Tag(models.Model):
     ORDER_VALUES = {
@@ -53,8 +55,8 @@ class Entry(models.Model):
     }
     title = models.CharField(max_length=250, verbose_name=_('Title'), unique=True, null=False, blank=False)    
     description = models.TextField(verbose_name=_('Description'), null=True, blank=True)
-    content = models.TextField(verbose_name=_('Content'), null=False, blank=False)
-    enabled = models.BooleanField(verbose_name=_('Enabled'), default=True)
+    content = RichTextField(verbose_name=_('Content'), null=False, blank=False)
+    enabled = models.BooleanField(verbose_name=_('Published'), default=True)
     slug = models.SlugField(max_length=250, verbose_name=_('Slug'), null=True, blank=True, unique=True)
     modification_date = models.DateTimeField(auto_now=True, auto_now_add=True)
     tags = models.ManyToManyField(Tag, verbose_name=_('Tag'), null=True, blank=True)

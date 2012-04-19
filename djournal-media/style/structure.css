@@ -11,6 +11,7 @@ p {
 }
 body {
 	background-image: url("../images/background.jpg");
+	background-color: #dedede;
 	background-position: center top;
 	background-repeat: repeat-y;
 	margin: 0px;
@@ -80,7 +81,7 @@ nav.sidebar-module div.content {
 	height: 50px;
 	margin-bottom: 3px;
 	margin-top: 7px;
-	margin-left: -13px;
+	margin-left: -15px;
 	width: 245px;
 }
 p.tag-sidebar-item {
@@ -156,5 +157,10 @@ p.date-sidebar-month {
 	margin-left: 0px;
 }
 footer.pagination {
-	margin-top: 35px;
+	margin-top: 60px;
+	padding-top: 5px;
+}
+img#logo {
+	margin-top: 20px;
+	margin-left: 10px;
 }

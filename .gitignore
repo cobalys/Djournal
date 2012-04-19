@@ -1,3 +1,4 @@
 *.pyc
 *~
 /djournalsite/settings_local.py
+/djournal-media/upload/images/*

@@ -10,7 +10,8 @@ Components
 djournal: 
 The engine. It is a Django Application. It doesn't run by itself, 
 it must be imported into another project. Djournalsite is a specific 
-Django project already configured to run djournal.   
+Django project already configured to run djournal.
+
 djournalsite: 
 It is a project configured to run djournal. If you plan to run
 only a Weblog with djournal use djournalsite, otherwise if you

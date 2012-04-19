@@ -19,24 +19,21 @@ except ImportError:
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    #('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
-
 TIME_ZONE = 'America/Chicago'
 LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
-
-MEDIA_ROOT = ''
-MEDIA_URL = ''
+MEDIA_ROOT = os.path.join(PROJECT_PARENT_PATH, 'djournal-media/upload/')
+MEDIA_URL = '/djournal-media/upload/'
 STATIC_ROOT = ''
-STATIC_URL = '/static/'
-ADMIN_MEDIA_PREFIX = '/static/admin/'
+STATIC_URL = '/djournal-media/'
+ADMIN_MEDIA_PREFIX = '/djournal-media/admin/'
 
 STATICFILES_DIRS = (
     os.path.join(PROJECT_PARENT_PATH, 'djournal-media/'),
@@ -100,7 +97,16 @@ LOGGING = {
 }
 
 CKEDITOR_MEDIA_PREFIX = "http://127.0.0.1/media/ckeditor/"
-CKEDITOR_UPLOAD_PATH = "/var/www/html/media/test_uploads/"
+CKEDITOR_UPLOAD_PATH = os.path.join(PROJECT_PARENT_PATH, 'djournal-media/upload/images/')
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar_djournal': [['Source', '-', 'NewPage', 'Preview', '-', 'Templates'], ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord'], ['Undo', 'Redo', '-', 'Find', 'Replace', '-', 'SelectAll', 'RemoveFormat'], '/', ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript'], ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote', 'CreateDiv'], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'], ['Link', 'Unlink', 'Anchor'], ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak'], '/', ['Styles', 'Format', 'Font', 'FontSize'], ['TextColor', 'BGColor'], ['Maximize', 'ShowBlocks', '-', 'About']],
+        'toolbar': 'djournal',
+        'height': 300,
+        'width': 700,
+    },
+}
+
 
 DJOURNAL_GENERATOR_DIR = os.path.join(PROJECT_PATH, 'templates/cache/')
 DJOURNAL_JQUERY_URL = "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"

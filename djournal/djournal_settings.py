@@ -21,13 +21,8 @@ from django.conf import settings
 import os
 
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
-TITLE = getattr(settings, 'BLOG_TITLE', 'BLOG')
-SYNDICATION_SUBSCRIBERS = getattr(settings, "SYNDICATION_SUBSCRIBERS", list())
-SITEMAP_SUBSCRIBERS = getattr(settings, "SITEMAP_SUBSCRIBERS", list())
-CHANGEFREQ = getattr(settings, "SITEMAP_CHANGEFREQ", 'monthly')
-PRIORITY = getattr(settings, "SITEMAP_PRIORITY", '0.8')
+TITLE = getattr(settings, 'DJOURNAL_TITLE', 'BLOG')
 GENERATOR_DIR = getattr(settings, "DJOURNAL_GENERATOR_DIR", None)
-PAGINATOR_MAX_RESULTS = 5
-
+PAGINATOR_MAX_RESULTS = getattr(settings, "DJOURNAL_PAGINATOR_MAX_RESULTS", 5)
 JQUERY_URL = getattr(settings, 'DJOURNAL_JQUERY_URL', "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
 JQUERYUI_URL = getattr(settings, 'DJOURNAL_JQUERYUI_URL', "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js")

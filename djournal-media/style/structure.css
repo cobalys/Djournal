@@ -29,6 +29,7 @@ div#content {
 	margin-left: 10px;
 	width: 690px;
 	float: left;
+	overflow: hidden;
 }
 header#top {
 	height: 125px;

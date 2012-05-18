@@ -1,10 +1,10 @@
 {% load i18n %}
 {% if year_dict %}
-	<div class='sidebar-module'>
+	<nav class='sidebar-module'>
 		<p id='date-sidebar-title' class='module-title'>{% trans "Archive" %}</p>
-		<div>
+		<div class="content">
 		{% for year in year_dict %}
-			<h3 class='date-sidebar-year date-sidebar-year-collapsed'><a href='#'/>{{ year.0 }}</a></h3>
+			<h3 class='date-sidebar-year date-sidebar-year-collapsed'><a href='#'>{{ year.0 }}</a></h3>
 			{% for month in year.1%}
 					<div class='month-date-sidebar'>
 						<p class='date-sidebar-month'><a href='{% url djournal-entries-month month.0 year.0  %}'>{{ month.1 }} ({{ month.2 }})</a></p>
@@ -12,5 +12,5 @@
 			{% endfor %}
 		{% endfor %}
 		</div>
-	</div>
+	</nav>
 {% endif %}

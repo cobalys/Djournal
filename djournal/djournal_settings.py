@@ -29,5 +29,5 @@ PRIORITY = getattr(settings, "SITEMAP_PRIORITY", '0.8')
 GENERATOR_DIR = getattr(settings, "DJOURNAL_GENERATOR_DIR", None)
 PAGINATOR_MAX_RESULTS = 5
 
-JQUERY_URL = getattr(settings, "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js", None)
-JQUERYUI_URL = getattr(settings, "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js", None)
+JQUERY_URL = getattr(settings, 'DJOURNAL_JQUERY_URL', "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js")
+JQUERYUI_URL = getattr(settings, 'DJOURNAL_JQUERYUI_URL', "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js")

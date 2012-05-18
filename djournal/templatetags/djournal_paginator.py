@@ -35,7 +35,9 @@ class PaginatorSimpleNode(template.Node):
             output = ""
             str_list = []
             if pages_total > 1:
+                str_list += "<footer class='pagination'>"
                 str_list += "<table class='pagination'>"
+                str_list += "<tr>"
                 str_list += "<td class='pagination-left'>"
                 if page > 1:
                     str_list += "<a class='pagination-left' href='?page=%i'>%s</a>" % (int(page) - 1,_('Previous'))
@@ -47,7 +49,9 @@ class PaginatorSimpleNode(template.Node):
                 if page < pages_total:
                     str_list += "<a class='pagination-right' href='?page=%i'>%s</a>" % (int(page) + 1,_('Next'))
                 str_list += "</td>"
+                str_list += "</tr>"
                 str_list += "</table>"
+                str_list += "</footer>"
             return output.join(str_list)
         except template.VariableDoesNotExist:
             return ''

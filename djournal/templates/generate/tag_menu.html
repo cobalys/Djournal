@@ -1,13 +1,13 @@
 {% load i18n %}
 {% if tags %}
-<div class='sidebar-module'>
+<nav class='sidebar-module'>
 	<p id='tag-sidebar-title' class='module-title'>{% trans "Tags" %}</p>
-	<div>
+	<div class="content">
 	{% for tag in tags %}
 		<p class='tag-sidebar-item'>
 		<a href='{{ path }}{% url djournal-entries-tag tag.1  tag.2 %}'>{{ tag.3 }} ({{ tag.0 }})</a>
 		</p>
 	{% endfor %}
 	</div>
-</div>
+</nav>
 {% endif %}

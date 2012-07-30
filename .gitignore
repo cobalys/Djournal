@@ -1,7 +1,8 @@
 *.pyc
 *~
-/djournalsite/settings_local.py
-/djournal-media/upload/images/*
+/djournalsite/djournalsite/settings_local.py
+/code/media/images/*
 .project
 .directory
 .settings
+code/.settings

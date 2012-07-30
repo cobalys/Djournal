@@ -2,3 +2,6 @@
 *~
 /djournalsite/settings_local.py
 /djournal-media/upload/images/*
+.project
+.directory
+.settings

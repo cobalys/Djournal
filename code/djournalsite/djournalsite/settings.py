@@ -104,18 +104,5 @@ LOGGING = {
     }
 }
 
-CKEDITOR_MEDIA_PREFIX = "http://127.0.0.1/media/ckeditor/"
-CKEDITOR_UPLOAD_PATH = os.path.join(PROJECT_PARENT_PATH, 'djournal-media/upload/images/')
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar_djournal': [['Source', '-', 'NewPage', 'Preview', '-', 'Templates'], ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord'], ['Undo', 'Redo', '-', 'Find', 'Replace', '-', 'SelectAll', 'RemoveFormat'], '/', ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript'], ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote', 'CreateDiv'], ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'], ['Link', 'Unlink', 'Anchor'], ['Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak'], '/', ['Styles', 'Format', 'Font', 'FontSize'], ['TextColor', 'BGColor'], ['Maximize', 'ShowBlocks', '-', 'About']],
-        'toolbar': 'djournal',
-        'height': 300,
-        'width': 700,
-    },
-}
-
-
-DJOURNAL_GENERATOR_DIR = os.path.join(PROJECT_PATH, 'templates/cache/')
 DJOURNAL_JQUERY_URL = "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"
 DJOURNAL_JQUERYUI_URL = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"

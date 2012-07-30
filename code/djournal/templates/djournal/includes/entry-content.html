@@ -1,0 +1,26 @@
+{% load i18n %}
+<article class="djournal-entry">
+	<header>
+		<h1 class="djournal-title"><a href="{{item.get_absolute_url}}">{{item.title|title}}</a></h1>
+		<a ></a>		
+		<p class="djournal-date">
+			{{ item.modification_date|date }}
+		</p>
+	</header>
+	<div class="djournal-body">
+		{{ item.content|safe }}
+	</div>
+	<footer>
+		<div class="djournal-tags">
+			{% for tag in item.tags.all %}
+				{% if forloop.first %}
+					{% trans 'Tags:&nbsp;' %}
+				{%endif%}
+					<a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>
+				{% if not forloop.last %}
+					,&nbsp;
+				{%endif%}
+			{% endfor %}
+		</div>
+	</footer>
+</article>

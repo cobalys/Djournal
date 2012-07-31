@@ -29,7 +29,7 @@ class PaginatorSimpleNode(template.Node):
 
     def render(self, context):
         try:
-            page = self.page.resolve(context)
+            page = int(self.page.resolve(context))
             pages = self.pages.resolve(context)
             pages_total = len(pages)
             output = ""

@@ -31,10 +31,10 @@ USE_I18N = True
 USE_L10N = True
 
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')
-STATIC_ROOT = '/var/www/html/static/'
+STATIC_ROOT = '/var/www/static/'
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/cobalys/'
+MEDIA_URL = '/media/'
 
 GENERATOR_DIR = os.path.join(PROJECT_PATH, 'templates/generated/compiled/')
 STATICFILES_DIRS = (

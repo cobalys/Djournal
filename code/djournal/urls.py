@@ -17,9 +17,7 @@ This file is part of Djournal.
     You should have received a copy of the GNU General Public License
     along with Djournal.  If not, see <http://www.gnu.org/licenses/>.
 '''
-from django.conf import settings
 from django.conf.urls.defaults import patterns, url
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from djournal.views import entry, entries_year, entries_month, entries_day, \
     entries_tag, entries_all, get_tag_names
 
@@ -34,13 +32,6 @@ urlpatterns = patterns(
     url(r'^entries.html$', entries_all, name='djournal-entries-all'),
     url(r'^tags.json$', get_tag_names, name='djournal-entries-tags-json'),
     url(r'^(?P<entry_id>\d+)/([\w-]+).html$', entry, name='djournal-entry'),
+    url(r'^$', entries_all, name='djournal-entries-index'),
 
 )
-
-if settings.DEBUG:
-    urlpatterns += staticfiles_urlpatterns()
-    urlpatterns += patterns('',
-            url(r'^media/cobalys/(?P<path>.*)$', 'django.views.static.serve', {
-                'document_root': settings.MEDIA_ROOT,
-            }),
-    )

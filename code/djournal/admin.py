@@ -21,6 +21,7 @@ from django.contrib import admin
 from django.utils.translation import ugettext as _
 from djournal import djournal_settings
 from djournal.models import Entry, Tag
+from django.conf import settings
 
 def publish(modeladmin, request, queryset):
     queryset.update(enabled=True)
@@ -69,8 +70,13 @@ class EntryAdmin(admin.ModelAdmin):
         entry.save()   
 
     class Media:
-        js = (djournal_settings.JQUERY_URL, djournal_settings.JQUERYUI_URL)
-
+        js = (djournal_settings.JQUERY_URL,
+              djournal_settings.JQUERYUI_URL)
+        
+        css = {
+            "all": ("%s%s" % (settings.STATIC_URL, 'djournal/style/djblog.css'),)
+        }
+        
     def save_model(self, request, obj, form, change):
         """
         Given a model instance save it to the database.
@@ -88,8 +94,11 @@ class TagAdmin(admin.ModelAdmin):
     ordering = ('name',)
     save_on_top = True
     class Media:
-        js = (djournal_settings.JQUERY_URL, djournal_settings.JQUERYUI_URL)
-
+        js = (djournal_settings.JQUERY_URL,
+              djournal_settings.JQUERYUI_URL,
+              "%s%s" % (settings.STATIC_URL, 'admin/js/urlify.js'),
+              "%s%s" % (settings.STATIC_URL, 'djournal/js/djournal-tags-admin.js')
+              )
 
 admin.site.register(Entry, EntryAdmin)
 admin.site.register(Tag, TagAdmin)

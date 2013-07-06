@@ -1,0 +1,18 @@
+{% load i18n admin_urls %}
+<div class="submit-row">
+{% if change %}
+	{% if publish %}
+		<input type="submit" value="{% trans 'Revert to draft and save' %}" name="_unpublish" {{ onclick_attrib }}/>
+		<input type="submit" value="{% trans 'Update and keep editing' %}" name="_continue" {{ onclick_attrib }}/>
+		<input type="submit" value="{% trans 'Update' %}" name="_save" {{ onclick_attrib }}/>
+	{% else %}
+		<input type="submit" value="{% trans 'Update draft' %}" name="_update" {{ onclick_attrib }}/>
+		<input type="submit" value="{% trans 'Update draft and keep editing' %}" name="_continue" {{ onclick_attrib }}/>
+		<input type="submit" value="{% trans 'Publish' %}" name="_publish" {{ onclick_attrib }}/>
+	{% endif %}
+{% else %}
+	<input type="submit" value="{% trans 'Save draft' %}" name="_save" {{ onclick_attrib }}/>
+	<input type="submit" value="{% trans 'Save draft and keep editing' %}" name="_continue" {{ onclick_attrib }}/>
+	<input type="submit" value="{% trans 'Publish' %}" name="_publish" {{ onclick_attrib }}/>
+{% endif %}
+</div>

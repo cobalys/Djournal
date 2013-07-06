@@ -1,0 +1,259 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-12 22:26-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: djournal/admin.py:28
+msgid "Publish"
+msgstr ""
+
+#: djournal/admin.py:32
+msgid "Hide"
+msgstr ""
+
+#: djournal/admin.py:47 djournal/models.py:64
+msgid "Excerpt"
+msgstr ""
+
+#: djournal/admin.py:56 djournal/models.py:54
+#: djournal/templates/templatetags/navigation/tag_menu.html:4
+msgid "Tags"
+msgstr ""
+
+#: djournal/models.py:32 djournal/models.py:34
+msgid "Name"
+msgstr ""
+
+#: djournal/models.py:35 djournal/models.py:68
+msgid "Slug"
+msgstr ""
+
+#: djournal/models.py:53 djournal/models.py:74
+msgid "Tag"
+msgstr ""
+
+#: djournal/models.py:59
+msgid "Newest first"
+msgstr ""
+
+#: djournal/models.py:60
+msgid "Older first"
+msgstr ""
+
+#: djournal/models.py:61 djournal/models.py:63
+msgid "Title"
+msgstr ""
+
+#: djournal/models.py:65
+msgid "Content"
+msgstr ""
+
+#: djournal/models.py:66 djournal/models.py:67
+msgid "Published"
+msgstr ""
+
+#: djournal/models.py:70
+msgid "Start Publication"
+msgstr ""
+
+#: djournal/models.py:71
+msgid "End Publication"
+msgstr ""
+
+#: djournal/models.py:98
+msgid "Entry"
+msgstr ""
+
+#: djournal/models.py:99
+msgid "Entries"
+msgstr ""
+
+#: djournal/views.py:61
+msgid "No Search Results."
+msgstr ""
+
+#: djournal/views.py:82
+#, python-format
+msgid "Showing results for: %(day)s %(month)s %(year)d"
+msgstr ""
+
+#: djournal/views.py:84
+#, python-format
+msgid "No Search Results for: %(day)s %(month)s %(year)d"
+msgstr ""
+
+#: djournal/views.py:102
+#, python-format
+msgid "Showing results for: %(month)s %(year)d"
+msgstr ""
+
+#: djournal/views.py:106
+#, python-format
+msgid "No Search Results for: %(month)s %(year)d"
+msgstr ""
+
+#: djournal/views.py:129
+#, python-format
+msgid "Showing results for: %(year)d"
+msgstr ""
+
+#: djournal/views.py:132
+#, python-format
+msgid "No Search Results for: %(year)d"
+msgstr ""
+
+#: djournal/views.py:149
+#, python-format
+msgid "Showing results for: %s"
+msgstr ""
+
+#: djournal/views.py:151
+#, python-format
+msgid "No Search Results for: %s"
+msgstr ""
+
+#: djournal/helpers/date.py:25
+msgid "January"
+msgstr ""
+
+#: djournal/helpers/date.py:26
+msgid "February"
+msgstr ""
+
+#: djournal/helpers/date.py:27
+msgid "March"
+msgstr ""
+
+#: djournal/helpers/date.py:28
+msgid "April"
+msgstr ""
+
+#: djournal/helpers/date.py:29
+msgid "May"
+msgstr ""
+
+#: djournal/helpers/date.py:30
+msgid "June"
+msgstr ""
+
+#: djournal/helpers/date.py:31
+msgid "July"
+msgstr ""
+
+#: djournal/helpers/date.py:32
+msgid "August"
+msgstr ""
+
+#: djournal/helpers/date.py:33
+msgid "September"
+msgstr ""
+
+#: djournal/helpers/date.py:34
+msgid "October"
+msgstr ""
+
+#: djournal/helpers/date.py:35
+msgid "November"
+msgstr ""
+
+#: djournal/helpers/date.py:36
+msgid "December"
+msgstr ""
+
+#: djournal/helpers/date.py:42
+msgid "Monday"
+msgstr ""
+
+#: djournal/helpers/date.py:43
+msgid "Tuesday"
+msgstr ""
+
+#: djournal/helpers/date.py:44
+msgid "Wednesday"
+msgstr ""
+
+#: djournal/helpers/date.py:45
+msgid "Thursday"
+msgstr ""
+
+#: djournal/helpers/date.py:46
+msgid "Friday"
+msgstr ""
+
+#: djournal/helpers/date.py:47
+msgid "Saturday"
+msgstr ""
+
+#: djournal/helpers/date.py:48
+msgid "Sunday"
+msgstr ""
+
+#: djournal/templates/admin/djournal/entry/change_form.html:56
+msgid "Home"
+msgstr ""
+
+#: djournal/templates/admin/djournal/entry/change_form.html:59
+msgid "Add"
+msgstr ""
+
+#: djournal/templates/admin/djournal/entry/change_form.html:75
+msgid "Please correct the error below."
+msgid_plural "Please correct the errors below."
+msgstr[0] ""
+msgstr[1] ""
+
+#: djournal/templates/admin/djournal/entry/change_form.html:100
+msgid "Tag:"
+msgstr ""
+
+#: djournal/templates/djournal/includes/entry-content.html:16
+msgid "Tags:&nbsp;"
+msgstr ""
+
+#: djournal/templates/templatetags/navigation/date_menu.html:4
+msgid "Archive"
+msgstr ""
+
+#: djournal/templates/templatetags/syndication/syndication_links.html:2
+msgid "RSS Latest Entries"
+msgstr ""
+
+#: djournal/templates/templatetags/syndication/syndication_links.html:4
+msgid "RSS Latest Entries for:"
+msgstr ""
+
+#: djournal/templatetags/djournal_paginator.py:41
+#: djournal/templatetags/djournal_paginator.py:43
+msgid "Previous"
+msgstr ""
+
+#: djournal/templatetags/djournal_paginator.py:46
+msgid "Page"
+msgstr ""
+
+#: djournal/templatetags/djournal_paginator.py:46
+msgid "of"
+msgstr ""
+
+#: djournal/templatetags/djournal_paginator.py:50
+#: djournal/templatetags/djournal_paginator.py:52
+msgid "Next"
+msgstr ""
+
+#: djournal/templatetags/djournal_paginator.py:64
+msgid "Paginator takes two arguments"
+msgstr ""

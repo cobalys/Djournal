@@ -1,0 +1,40 @@
+{% load djournal_navigation djournal_syndication %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	<meta charset="utf-8" />
+		{% if title %}
+			<title>{{ title }}</title>
+		{% else %}
+			<title>Djournal Example Site</title>
+		{% endif %}
+		{% if description %}
+			<meta name="description" content="{{ description }}" />
+		{% else %}
+			<meta name="description" content="" />
+		{% endif %}
+		{% if author %}
+			<meta name="author" content="{{ author }}" />
+		{% endif %}
+		<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		{% djournal_rss_head %}
+		
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+		
+		<script type="text/javascript" src="{{ STATIC_URL }}djournal/js/djournal-sidebar.js"></script>
+
+	</head>
+	<body>
+		{% block content %}{% endblock %}
+		{% djournal_tag_sidebar %}
+		{% djournal_date_sidebar  %}
+
+		{% djournal_rss_body_all %}v{% end_djournal_rss_body_all %}
+		{% djournal_rss_body_tag tag %}v{% end_djournal_rss_body_tag %}
+		
+	</body>
+</html>

@@ -1,0 +1,16 @@
+{% extends "djournal/layout/template.html" %}
+{% load humanize %}
+{% load djournal_paginator %}
+{% block content %}
+<div class="entries">
+	{% if headline %}
+	<header id="entries-headline">
+		{{ headline }}
+	</header>
+	{% endif %}
+	{% for item in items %}
+		{% include 'djournal/includes/entry-content.html' %}
+	{% endfor %}
+	{% djournal_paginator_simple pages page %}
+</div>
+{% endblock %}

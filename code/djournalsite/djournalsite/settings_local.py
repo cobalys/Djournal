@@ -1,10 +1,10 @@
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'djournal', 
-        'USER': 'root',
-        'PASSWORD': 'eagle785on3', 
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'djournal.sqlite3',
+        'USER': '',
+        'PASSWORD': '',
         'HOST': '',
-        'PORT': '', 
+        'PORT': '',
     }
 }

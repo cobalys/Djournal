@@ -1,6 +1,7 @@
 import os
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
-PROJECT_PARENT_PATH = os.path.abspath(os.path.join(PROJECT_PATH,"../../"))
+PROJECT_PARENT_PATH = os.path.abspath(os.path.join(PROJECT_PATH, "../"))
+PROJECT_GRANDPARENT_PATH = os.path.abspath(os.path.join(PROJECT_PATH, "../../"))
 
 try:
     import djournalsite.settings_local
@@ -8,12 +9,12 @@ try:
 except ImportError:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.mysql', 
-            'NAME': 'djournal', 
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'djournal',
             'USER': '',
-            'PASSWORD': '', 
+            'PASSWORD': '',
             'HOST': '',
-            'PORT': '', 
+            'PORT': '',
         }
     }
 
@@ -36,9 +37,11 @@ STATIC_ROOT = '/var/www/static/'
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-GENERATOR_DIR = os.path.join(PROJECT_PATH, 'templates/generated/compiled/')
 STATICFILES_DIRS = (
     os.path.join(PROJECT_PARENT_PATH, 'static/'),
+    '/home/sergio/Workspace/THISWORKSPACE/Projects/Open/Djournal/Code/Djournal/static/',
+    os.path.join(PROJECT_GRANDPARENT_PATH, 'djournal/static/'),
+    "/home/sergio/Workspace/THISWORKSPACE/Projects/Open/Adminmax/Code/adminmax/static/"
    )
 
 STATICFILES_FINDERS = (
@@ -70,15 +73,12 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'djournalsite.urls'
 
-TEMPLATE_DIRS = (
-                 os.path.join(PROJECT_PATH, 'templates/'),
-)
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.sitemaps',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
@@ -86,12 +86,23 @@ INSTALLED_APPS = (
     'django.contrib.admin',
 )
 
+# A sample logging configuration. The only tangible logging
+# performed by this configuration is to send an email to
+# the site admins on every HTTP 500 error when DEBUG=False.
+# See http://docs.djangoproject.com/en/dev/topics/logging for
+# more details on how to customize your logging configuration.
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
+            'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         }
     },

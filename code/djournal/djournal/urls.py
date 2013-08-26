@@ -17,7 +17,7 @@ This file is part of Djournal.
     You should have received a copy of the GNU General Public License
     along with Djournal.  If not, see <http://www.gnu.org/licenses/>.
 '''
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 from djournal.syndication import RssEntries, RssEntriesByTag
 from djournal.views import entry, entries_year, entries_month, entries_day, \
     entries_tag, entries_all, get_tag_names, entry_permalink

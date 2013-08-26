@@ -1,6 +1,7 @@
 *.pyc
 *~
-/djournalsite/djournalsite/settings_local.py
+*.sqlite3
+*.pydevproject
 /code/media/images/*
 .project
 .directory

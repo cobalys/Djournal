@@ -5,6 +5,13 @@
 
 Welcome to djournal's documentation!
 ====================================
+.. toctree::
+   :maxdepth: 2
+
+   readme
+   installation
+   configuration
+   roadmap
 
 Introduction
 ------------

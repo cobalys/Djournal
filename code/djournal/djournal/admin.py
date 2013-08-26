@@ -62,7 +62,6 @@ import copy
 import warnings
 
 
-
 def publish(modeladmin, request, queryset):
     queryset.update(published=True)
 publish.short_description = _('Publish')
@@ -73,7 +72,6 @@ def hide(modeladmin, request, queryset):
 hide.short_description = _('Hide')
 
 
-
 class EntryAdminForm(ModelForm):
 #     tags = ModelMultipleChoiceField(None)
 
@@ -81,7 +79,8 @@ class EntryAdminForm(ModelForm):
         super(EntryAdminForm, self).__init__(*args, **kwargs)
         choices = self.fields['tags'].widget.choices
         queryset = self.fields['tags'].queryset
-        self.fields['tags'] = TagsField(queryset)
+        required = self.fields['tags'].required
+        self.fields['tags'] = TagsField(queryset, required=required)
         self.fields['tags'].widget = TagsWidget(choices) #= ModelMultipleChoiceField(kwargs['instance'].tags)#kwargs['instance'].tags)
         print str(self.fields)
 
@@ -117,11 +116,6 @@ class EntryAdmin(admin.ModelAdmin):
                 'classes': ('collapse',),
                 'fields': ('excerpt',),
             }),
-#            No implemented Yet.
-#            (_('Options'), {
-#                'classes': ('collapse',),
-#                'fields': (('start_publication','end_publication'),),
-#            }),
             (_('Tags'), {
                 'fields': ('tags',),
             }),

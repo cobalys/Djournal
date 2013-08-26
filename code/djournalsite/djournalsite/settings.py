@@ -39,9 +39,9 @@ MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = (
     os.path.join(PROJECT_PARENT_PATH, 'static/'),
-    '/home/sergio/Workspace/THISWORKSPACE/Projects/Open/Djournal/Code/Djournal/static/',
+    '/home/sergio/Workspace/Projects/Open/Djournal/Code/Djournal/static/',
     os.path.join(PROJECT_GRANDPARENT_PATH, 'djournal/static/'),
-    "/home/sergio/Workspace/THISWORKSPACE/Projects/Open/Adminmax/Code/adminmax/static/"
+    "/home/sergio/Workspace/Projects/Open/Adminmax/Code/adminmax/static/"
    )
 
 STATICFILES_FINDERS = (

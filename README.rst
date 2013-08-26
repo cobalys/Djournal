@@ -19,15 +19,3 @@ djournalsite:
 	only a Weblog with djournal use djournalsite, otherwise if you
 	plan to plug djournal into an existent Django project you can 
 	delete the djournalsite package.   
-
-
-
-
-Requierements
--------------
-* Django 1.3
-* PIL
-* JQuery
-* JQuery UI
-* MySQL
-* django-ckeditor - https://github.com/shaunsephton/django-ckeditor

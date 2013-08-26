@@ -1,0 +1,7 @@
+Basic Installation:
+
+1) Add the path of Djournal-master/code/djournal/ to the Python path (pth).
+2) Change settings locals.
+3) Go to the django sites folder.
+   a) python manage.py syncdb
+   b) python manage.py runserver

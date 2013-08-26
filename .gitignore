@@ -1,9 +1,0 @@
-*.pyc
-*~
-*.sqlite3
-*.pydevproject
-/code/media/images/*
-.project
-.directory
-.settings
-code/.settings

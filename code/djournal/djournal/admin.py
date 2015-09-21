@@ -34,7 +34,7 @@ from django.core.urlresolvers import reverse
 from django.db import models, transaction, router, transaction
 from django.db.models.constants import LOOKUP_SEP
 from django.db.models.fields import BLANK_CHOICE_DASH, FieldDoesNotExist
-from django.db.models.related import RelatedObject
+from django.db.models.fields.related import ForeignObjectRel
 from django.db.models.sql.constants import QUERY_TERMS
 from django.forms import ModelForm
 from django.forms.formsets import all_valid, all_valid
@@ -86,6 +86,7 @@ class EntryAdminForm(ModelForm):
 
     class Meta:
         model = Entry
+        fields = ['tags',]
         if djournal_settings.RICHTEXT_EDITOR:
             package_name = djournal_settings.RICHTEXT_EDITOR.split('.')
             class_name = package_name[-1]
@@ -154,7 +155,6 @@ class EntryAdmin(admin.ModelAdmin):
 
 
     @csrf_protect_m
-    @transaction.commit_on_success
     def add_view(self, request, form_url='', extra_context=None):
         "The 'add' admin view for this model."
         model = self.model
@@ -245,7 +245,6 @@ class EntryAdmin(admin.ModelAdmin):
         return self.render_change_form(request, context, form_url=form_url, add=True)
     
     @csrf_protect_m
-    @transaction.commit_on_success
     def change_view(self, request, object_id, form_url='', extra_context=None):
         "The 'change' admin view for this model."
         model = self.model

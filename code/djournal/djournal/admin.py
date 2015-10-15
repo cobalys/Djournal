@@ -17,6 +17,10 @@ This file is part of Djournal.
     You should have received a copy of the GNU General Public License
     along with Djournal.  If not, see <http://www.gnu.org/licenses/>.
 '''
+import copy
+from functools import update_wrapper, partial
+import warnings
+
 from django import forms, template
 from django.conf import settings, settings
 from django.conf.urls import patterns
@@ -24,8 +28,6 @@ from django.contrib import admin, messages
 from django.contrib.admin import widgets, helpers
 from django.contrib.admin.options import csrf_protect_m
 from django.contrib.admin.templatetags.admin_static import static
-from django.contrib.admin.utils import unquote, flatten_fieldsets, \
-    get_deleted_objects, model_format_dict
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied, ValidationError, \
     ValidationError, PermissionDenied
@@ -40,7 +42,6 @@ from django.forms import ModelForm
 from django.forms.formsets import all_valid, all_valid
 from django.forms.models import modelform_factory, modelformset_factory, \
     inlineformset_factory, BaseInlineFormSet, ModelChoiceField
-from django.forms.util import flatatt
 from django.forms.widgets import Widget, SelectMultiple, MultipleHiddenInput
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -54,12 +55,13 @@ from django.utils.safestring import mark_safe, mark_safe
 from django.utils.text import capfirst, get_text_list
 from django.utils.translation import ugettext as _, ugettext as _, ungettext
 from django.views.decorators.csrf import csrf_protect
+
+from django.contrib.admin.utils import unquote, flatten_fieldsets, \
+    get_deleted_objects, model_format_dict
+from django.forms.utils import flatatt
 from djournal import djournal_settings
 from djournal.fields import TagsField, TagsWidget
 from djournal.models import Entry, Tag
-from functools import update_wrapper, partial
-import copy
-import warnings
 
 
 def publish(modeladmin, request, queryset):

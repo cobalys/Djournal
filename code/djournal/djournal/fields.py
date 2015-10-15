@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.forms.models import ModelChoiceField
-from django.forms.util import flatatt
+from django.forms.utils import flatatt
 from django.forms.widgets import Widget, SelectMultiple, MultipleHiddenInput
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _

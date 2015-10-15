@@ -9,3 +9,4 @@
 .codenvy
 code/.settings
 requirements.txt
+Djournal/code/djournalsite/djournalsite/settings_local.py

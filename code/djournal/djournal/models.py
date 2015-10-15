@@ -70,7 +70,7 @@ class Entry(models.Model):
     modification_date = models.DateTimeField(auto_now=True)
     start_publication = models.DateTimeField(verbose_name=_('Start Publication'), null=True, blank=True,)
     end_publication = models.DateTimeField(verbose_name=_('End Publication'), null=True, blank=True)
-    tags = models.ManyToManyField(Tag, verbose_name=_('Tag'), null=True, blank=True)
+    tags = models.ManyToManyField(Tag, verbose_name=_('Tag'), blank=True)
 #    author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
 
     @models.permalink

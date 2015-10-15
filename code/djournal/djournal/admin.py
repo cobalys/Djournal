@@ -24,7 +24,7 @@ from django.contrib import admin, messages
 from django.contrib.admin import widgets, helpers
 from django.contrib.admin.options import csrf_protect_m
 from django.contrib.admin.templatetags.admin_static import static
-from django.contrib.admin.util import unquote, flatten_fieldsets, \
+from django.contrib.admin.utils import unquote, flatten_fieldsets, \
     get_deleted_objects, model_format_dict
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied, ValidationError, \

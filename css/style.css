@@ -1,27 +1,61 @@
 * {
 	padding: 0;
 	margin: 0;
-	clear:none;
+	clear: none;
 }
+
 div {
 	line-height: 1;
-	
 }
-h1, p, a{
+
+h1, p, a {
 	margin: 0;
 	text-decoration: none;
 	color: rgb(51, 51, 51);
-	font-family: fantasy;
+	font-family: arial;
 	margin: 5px;
-	margin-left:0px;
+	margin-left: 0px;
 }
+
 body {
 	padding: 0;
 	margin: 0;
 	background-color: #ffffff;
-	background-attachment: fixed;
-	background-repeat: repeat-x;
-	background-position: top;
-	height: 111px;
-    background-image: url('../images/background.jpg')
+}
+
+#content {
+	width: 260px;
+	float: right;
+	border-left: 3px solid rgb(51, 51, 51);
+	line-height: 1;
+	padding-bottom: 30px;
+	padding-top: 30px;
+	padding-left: 15px;
+	margin-top: 80px;
+}
+
+@media ( min-width : 900px) {
+	body {
+		background-attachment: fixed;
+		background-repeat: no-repeat;
+		background-position: top;
+		background-image: url('../images/background.jpg')
+	}
+	#main {
+		margin: 95px auto auto;
+		width: 900px;
+	}
+}
+
+@media ( min-width : 1000px) {
+	body {
+		background-attachment: fixed;
+		background-repeat: no-repeat;
+		background-position: top;
+		background-image: url('../images/background.jpg')
+	}
+	#main {
+		margin: 95px auto auto;
+		width: 900px;
+	}
 }

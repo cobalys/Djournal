@@ -127,7 +127,9 @@ class EntryAdmin(admin.ModelAdmin):
     def render_change_form(self, request, context, add=False, change=False, form_url='', obj=None):
         opts = self.model._meta
         app_label = opts.app_label
-        ordered_objects = opts.get_ordered_objects()
+        preserved_filters = self.get_preserved_filters(request)
+        form_url = add_preserved_filters({'preserved_filters': preserved_filters, 'opts': opts}, form_url)
+        view_on_site_url = self.get_view_on_site_url(obj)
         context.update({
             'add': add,
             'change': change,
@@ -135,211 +137,130 @@ class EntryAdmin(admin.ModelAdmin):
             'has_add_permission': self.has_add_permission(request),
             'has_change_permission': self.has_change_permission(request, obj),
             'has_delete_permission': self.has_delete_permission(request, obj),
-            'has_file_field': True, # FIXME - this should check if form or formsets have a FileField,
-            'has_absolute_url': hasattr(self.model, 'get_absolute_url'),
-            'ordered_objects': ordered_objects,
+            'has_file_field': True,  # FIXME - this should check if form or formsets have a FileField,
+            'has_absolute_url': view_on_site_url is not None,
+            'absolute_url': view_on_site_url,
             'form_url': form_url,
             'opts': opts,
-            'content_type_id': ContentType.objects.get_for_model(self.model).id,
+            'content_type_id': get_content_type_for_model(self.model).pk,
             'save_as': self.save_as,
             'save_on_top': self.save_on_top,
+            'to_field_var': TO_FIELD_VAR,
+            'is_popup_var': IS_POPUP_VAR,
+            'app_label': app_label,
         })
         if add and self.add_form_template is not None:
             form_template = self.add_form_template
         else:
             form_template = self.change_form_template
 
+        request.current_app = self.admin_site.name
+
         return TemplateResponse(request, form_template or [
-            "admin/%s/%s/change_form.html" % (app_label, opts.object_name.lower()),
+            "admin/%s/%s/change_form.html" % (app_label, opts.model_name),
             "admin/%s/change_form.html" % app_label,
             "admin/change_form.html"
-        ], context, current_app=self.admin_site.name)
+        ], context)
+
+
 
 
     @csrf_protect_m
-    def add_view(self, request, form_url='', extra_context=None):
-        "The 'add' admin view for this model."
+    @transaction.atomic
+    def changeform_view(self, request, object_id=None, form_url='', extra_context=None):
+
+        to_field = request.POST.get(TO_FIELD_VAR, request.GET.get(TO_FIELD_VAR))
+        if to_field and not self.to_field_allowed(request, to_field):
+            raise DisallowedModelAdminToField("The field %s cannot be referenced." % to_field)
+
         model = self.model
         opts = model._meta
+        add = object_id is None
 
-        if not self.has_add_permission(request):
-            raise PermissionDenied
+        if add:
+            if not self.has_add_permission(request):
+                raise PermissionDenied
+            obj = None
 
-        ModelForm = self.get_form(request)
-        formsets = []
-        inline_instances = self.get_inline_instances(request, None)
-        if request.method == 'POST':
-            form = ModelForm(request.POST, request.FILES)
-            if form.is_valid():
-                new_object = self.save_form(request, form, change=False)
-                form_validated = True
-            else:
-                form_validated = False
-                new_object = self.model()
-            prefixes = {}
-            for FormSet, inline in zip(self.get_formsets(request), inline_instances):
-                prefix = FormSet.get_default_prefix()
-                prefixes[prefix] = prefixes.get(prefix, 0) + 1
-                if prefixes[prefix] != 1 or not prefix:
-                    prefix = "%s-%s" % (prefix, prefixes[prefix])
-                formset = FormSet(data=request.POST, files=request.FILES,
-                                  instance=new_object,
-                                  save_as_new="_saveasnew" in request.POST,
-                                  prefix=prefix, queryset=inline.queryset(request))
-                formsets.append(formset)
-            if all_valid(formsets) and form_validated:
-                if "_publish" in request.POST:
-                    new_object.published = True
-                elif "_unpublish" in request.POST:
-                    new_object.published = False
-                self.save_model(request, new_object, form, False)
-                self.save_related(request, form, formsets, False)
-                self.log_addition(request, new_object)
-                return self.response_add(request, new_object)
         else:
-            # Prepare the dict of initial data from the request.
-            # We have to special-case M2Ms as a list of comma-separated PKs.
-            initial = dict(request.GET.items())
-            for k in initial:
-                try:
-                    f = opts.get_field(k)
-                except models.FieldDoesNotExist:
-                    continue
-                if isinstance(f, models.ManyToManyField):
-                    initial[k] = initial[k].split(",")
-            form = ModelForm(initial=initial)
-            prefixes = {}
-            for FormSet, inline in zip(self.get_formsets(request), inline_instances):
-                prefix = FormSet.get_default_prefix()
-                prefixes[prefix] = prefixes.get(prefix, 0) + 1
-                if prefixes[prefix] != 1 or not prefix:
-                    prefix = "%s-%s" % (prefix, prefixes[prefix])
-                formset = FormSet(instance=self.model(), prefix=prefix,
-                                  queryset=inline.queryset(request))
-                formsets.append(formset)
+            obj = self.get_object(request, unquote(object_id), to_field)
 
-        adminForm = helpers.AdminForm(form, list(self.get_fieldsets(request)),
-            self.get_prepopulated_fields(request),
-            self.get_readonly_fields(request),
-            model_admin=self)
-        media = self.media + adminForm.media
+            if not self.has_change_permission(request, obj):
+                raise PermissionDenied
 
-        inline_admin_formsets = []
-        for inline, formset in zip(inline_instances, formsets):
-            fieldsets = list(inline.get_fieldsets(request))
-            readonly = list(inline.get_readonly_fields(request))
-            prepopulated = dict(inline.get_prepopulated_fields(request))
-            inline_admin_formset = helpers.InlineAdminFormSet(inline, formset,
-                fieldsets, prepopulated, readonly, model_admin=self)
-            inline_admin_formsets.append(inline_admin_formset)
-            media = media + inline_admin_formset.media
+            if obj is None:
+                raise Http404(_('%(name)s object with primary key %(key)r does not exist.') % {
+                    'name': force_text(opts.verbose_name), 'key': escape(object_id)})
 
-        context = {
-            'title': _('Add %s') % force_text(opts.verbose_name),
-            'adminform': adminForm,
-            'is_popup': "_popup" in request.REQUEST,
-            'media': media,
-            'inline_admin_formsets': inline_admin_formsets,
-            'errors': helpers.AdminErrorList(form, formsets),
-            'app_label': opts.app_label,
-        }
-        context.update(extra_context or {})
-        return self.render_change_form(request, context, form_url=form_url, add=True)
-    
-    @csrf_protect_m
-    def change_view(self, request, object_id, form_url='', extra_context=None):
-        "The 'change' admin view for this model."
-        model = self.model
-        opts = model._meta
-
-        obj = self.get_object(request, unquote(object_id))
-
-        if not self.has_change_permission(request, obj):
-            raise PermissionDenied
-
-        if obj is None:
-            raise Http404(_('%(name)s object with primary key %(key)r does not exist.') % {'name': force_text(opts.verbose_name), 'key': escape(object_id)})
-
-        if request.method == 'POST' and "_saveasnew" in request.POST:
-            return self.add_view(request, form_url=reverse('admin:%s_%s_add' %
-                                    (opts.app_label, opts.module_name),
-                                    current_app=self.admin_site.name))
+            if request.method == 'POST' and "_saveasnew" in request.POST:
+                return self.add_view(request, form_url=reverse('admin:%s_%s_add' % (
+                    opts.app_label, opts.model_name),
+                    current_app=self.admin_site.name))
 
         ModelForm = self.get_form(request, obj)
-        formsets = []
-        inline_instances = self.get_inline_instances(request, obj)
         if request.method == 'POST':
             form = ModelForm(request.POST, request.FILES, instance=obj)
             if form.is_valid():
                 form_validated = True
-                new_object = self.save_form(request, form, change=True)
+                new_object = self.save_form(request, form, change=not add)
             else:
                 form_validated = False
-                new_object = obj
-            prefixes = {}
-            for FormSet, inline in zip(self.get_formsets(request, new_object), inline_instances):
-                prefix = FormSet.get_default_prefix()
-                prefixes[prefix] = prefixes.get(prefix, 0) + 1
-                if prefixes[prefix] != 1 or not prefix:
-                    prefix = "%s-%s" % (prefix, prefixes[prefix])
-                formset = FormSet(request.POST, request.FILES,
-                                  instance=new_object, prefix=prefix,
-                                  queryset=inline.queryset(request))
-
-                formsets.append(formset)
-
+                new_object = form.instance
+            formsets, inline_instances = self._create_formsets(request, new_object, change=not add)
             if all_valid(formsets) and form_validated:
+                
                 if "_publish" in request.POST:
                     new_object.published = True
                 elif "_unpublish" in request.POST:
                     new_object.published = False
-                self.save_model(request, new_object, form, True)
-                self.save_related(request, form, formsets, True)
-                change_message = self.construct_change_message(request, form, formsets)
-                self.log_change(request, new_object, change_message)
-                return self.response_change(request, new_object)
-
+                
+                self.save_model(request, new_object, form, not add)
+                self.save_related(request, form, formsets, not add)
+                if add:
+                    self.log_addition(request, new_object)
+                    return self.response_add(request, new_object)
+                else:
+                    change_message = self.construct_change_message(request, form, formsets)
+                    self.log_change(request, new_object, change_message)
+                    return self.response_change(request, new_object)
         else:
-            form = ModelForm(instance=obj)
-            prefixes = {}
-            for FormSet, inline in zip(self.get_formsets(request, obj), inline_instances):
-                prefix = FormSet.get_default_prefix()
-                prefixes[prefix] = prefixes.get(prefix, 0) + 1
-                if prefixes[prefix] != 1 or not prefix:
-                    prefix = "%s-%s" % (prefix, prefixes[prefix])
-                formset = FormSet(instance=obj, prefix=prefix,
-                                  queryset=inline.queryset(request))
-                formsets.append(formset)
+            if add:
+                initial = self.get_changeform_initial_data(request)
+                form = ModelForm(initial=initial)
+                formsets, inline_instances = self._create_formsets(request, self.model(), change=False)
+            else:
+                form = ModelForm(instance=obj)
+                formsets, inline_instances = self._create_formsets(request, obj, change=True)
 
-        adminForm = helpers.AdminForm(form, self.get_fieldsets(request, obj),
+        adminForm = helpers.AdminForm(
+            form,
+            list(self.get_fieldsets(request, obj)),
             self.get_prepopulated_fields(request, obj),
             self.get_readonly_fields(request, obj),
             model_admin=self)
         media = self.media + adminForm.media
 
-        inline_admin_formsets = []
-        for inline, formset in zip(inline_instances, formsets):
-            fieldsets = list(inline.get_fieldsets(request, obj))
-            readonly = list(inline.get_readonly_fields(request, obj))
-            prepopulated = dict(inline.get_prepopulated_fields(request, obj))
-            inline_admin_formset = helpers.InlineAdminFormSet(inline, formset,
-                fieldsets, prepopulated, readonly, model_admin=self)
-            inline_admin_formsets.append(inline_admin_formset)
-            media = media + inline_admin_formset.media
+        inline_formsets = self.get_inline_formsets(request, formsets, inline_instances, obj)
+        for inline_formset in inline_formsets:
+            media = media + inline_formset.media
 
-        context = {
-            'title': _('Change %s') % force_text(opts.verbose_name),
-            'adminform': adminForm,
-            'object_id': object_id,
-            'original': obj,
-            'is_popup': "_popup" in request.REQUEST,
-            'media': media,
-            'inline_admin_formsets': inline_admin_formsets,
-            'errors': helpers.AdminErrorList(form, formsets),
-            'app_label': opts.app_label,
-        }
+        context = dict(self.admin_site.each_context(request),
+            title=(_('Add %s') if add else _('Change %s')) % force_text(opts.verbose_name),
+            adminform=adminForm,
+            object_id=object_id,
+            original=obj,
+            is_popup=(IS_POPUP_VAR in request.POST or
+                      IS_POPUP_VAR in request.GET),
+            to_field=to_field,
+            media=media,
+            inline_admin_formsets=inline_formsets,
+            errors=helpers.AdminErrorList(form, formsets),
+            preserved_filters=self.get_preserved_filters(request),
+        )
+
         context.update(extra_context or {})
-        return self.render_change_form(request, context, change=True, obj=obj, form_url=form_url)
+
+        return self.render_change_form(request, context, add=add, change=not add, obj=obj, form_url=form_url)
 
 
     def queryset(self, request):

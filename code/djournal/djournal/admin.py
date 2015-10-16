@@ -17,44 +17,21 @@ This file is part of Djournal.
     You should have received a copy of the GNU General Public License
     along with Djournal.  If not, see <http://www.gnu.org/licenses/>.
 '''
-import copy
-from functools import update_wrapper, partial
-import warnings
-
-from django import forms, template
-from django.conf import settings, settings
-from django.conf.urls import patterns
-from django.contrib import admin, messages
+from django.conf import settings
+from django.contrib import admin
 from django.contrib.admin import widgets, helpers
 from django.contrib.admin.options import csrf_protect_m
-from django.contrib.admin.templatetags.admin_static import static
-from django.contrib.contenttypes.models import ContentType
-from django.core.exceptions import PermissionDenied, ValidationError, \
-    ValidationError, PermissionDenied
-from django.core.paginator import Paginator
+from django.contrib.admin.views.main import TO_FIELD_VAR, IS_POPUP_VAR
+from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
-from django.db import models, transaction, router, transaction
-from django.db.models.constants import LOOKUP_SEP
-from django.db.models.fields import BLANK_CHOICE_DASH, FieldDoesNotExist
+from django.db import transaction
 from django.db.models.fields.related import ForeignObjectRel
-from django.db.models.sql.constants import QUERY_TERMS
 from django.forms import ModelForm
-from django.forms.formsets import all_valid, all_valid
-from django.forms.models import modelform_factory, modelformset_factory, \
-    inlineformset_factory, BaseInlineFormSet, ModelChoiceField
-from django.forms.widgets import Widget, SelectMultiple, MultipleHiddenInput
-from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404
-from django.template.response import SimpleTemplateResponse, TemplateResponse
-from django.utils import six
-from django.utils.datastructures import SortedDict
-from django.utils.decorators import method_decorator
+from django.forms.formsets import all_valid
+from django.http.response import Http404
+from django.template.response import TemplateResponse
 from django.utils.encoding import force_text
-from django.utils.html import escape, escapejs
-from django.utils.safestring import mark_safe, mark_safe
-from django.utils.text import capfirst, get_text_list
-from django.utils.translation import ugettext as _, ugettext as _, ungettext
-from django.views.decorators.csrf import csrf_protect
+from django.utils.html import escape
 
 from django.contrib.admin.utils import unquote, flatten_fieldsets, \
     get_deleted_objects, model_format_dict

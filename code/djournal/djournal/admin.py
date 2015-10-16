@@ -39,6 +39,7 @@ from django.forms.utils import flatatt
 from djournal import djournal_settings
 from djournal.fields import TagsField, TagsWidget
 from djournal.models import Entry, Tag
+from django.utils.translation import ugettext as _
 
 
 def publish(modeladmin, request, queryset):
@@ -60,12 +61,12 @@ class EntryAdminForm(ModelForm):
         queryset = self.fields['tags'].queryset
         required = self.fields['tags'].required
         self.fields['tags'] = TagsField(queryset, required=required)
-        self.fields['tags'].widget = TagsWidget(choices) #= ModelMultipleChoiceField(kwargs['instance'].tags)#kwargs['instance'].tags)
+        self.fields['tags'].widget = TagsWidget(choices)  # = ModelMultipleChoiceField(kwargs['instance'].tags)#kwargs['instance'].tags)
         print str(self.fields)
 
     class Meta:
         model = Entry
-        fields = ['tags',]
+        fields = ['tags', ]
         if djournal_settings.RICHTEXT_EDITOR:
             package_name = djournal_settings.RICHTEXT_EDITOR.split('.')
             class_name = package_name[-1]
@@ -84,7 +85,7 @@ class EntryAdmin(admin.ModelAdmin):
     ordering = ('-modification_date',)
     save_on_top = True
     list_per_page = 10
-    list_filter = ('published', )
+    list_filter = ('published',)
     actions = [publish, hide]
     form = EntryAdminForm
 

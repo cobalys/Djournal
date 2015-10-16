@@ -17,7 +17,6 @@ This file is part of Djournal.
     You should have received a copy of the GNU General Public License
     along with Djournal.  If not, see <http://www.gnu.org/licenses/>.
 '''
-from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_delete, post_save
 from django.template.defaultfilters import slugify

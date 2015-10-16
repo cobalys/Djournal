@@ -27,7 +27,6 @@ from django.contrib.admin.views.main import TO_FIELD_VAR, IS_POPUP_VAR
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.db import transaction
-from django.db.models.fields.related import ForeignObjectRel
 from django.forms import ModelForm
 from django.forms.formsets import all_valid
 from django.http.response import Http404
@@ -37,9 +36,7 @@ from django.utils.html import escape
 from django.utils.translation import ugettext as _
 
 from django.contrib.admin.exceptions import DisallowedModelAdminToField
-from django.contrib.admin.utils import unquote, flatten_fieldsets, \
-    get_deleted_objects, model_format_dict
-from django.forms.utils import flatatt
+from django.contrib.admin.utils import unquote
 from djournal import djournal_settings
 from djournal.fields import TagsField, TagsWidget
 from djournal.models import Entry, Tag
@@ -64,7 +61,7 @@ class EntryAdminForm(ModelForm):
         queryset = self.fields['tags'].queryset
         required = self.fields['tags'].required
         self.fields['tags'] = TagsField(queryset, required=required)
-        self.fields['tags'].widget = TagsWidget(choices)  # = ModelMultipleChoiceField(kwargs['instance'].tags)#kwargs['instance'].tags)
+        #self.fields['tags'].widget = TagsWidget(choices)  # = ModelMultipleChoiceField(kwargs['instance'].tags)#kwargs['instance'].tags)
         print str(self.fields)
 
     class Meta:

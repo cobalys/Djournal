@@ -73,25 +73,30 @@ class TagsField(ModelChoiceField):
         'invalid_pk_value': _('"%s" is not a valid value for a primary key.')
     }
 
-    def __init__(self, queryset, cache_choices=False, required=True,
+    def __init__(self, queryset, cache_choices=None, required=True,
                  widget=None, label=None, initial=None,
-                 help_text=None, *args, **kwargs):
+                 help_text='', *args, **kwargs):
         super(TagsField, self).__init__(queryset, None,
             cache_choices, required, widget, label, initial, help_text,
             *args, **kwargs)
 
+
     def clean(self, value):
         if self.required and not value:
-            raise ValidationError(self.error_messages['required'])
+            raise ValidationError(self.error_messages['required'], code='required')
         elif not self.required and not value:
             return self.queryset.none()
-        self.to_python(value)
-        self.validate(value)
+        if not isinstance(value, (list, tuple)):
+            raise ValidationError(self.error_messages['list'], code='list')
+        qs = self._check_values(value)
+        # Since this overrides the inherited ModelChoiceField.clean
+        # we run custom validators here
         self.run_validators(value)
         key = 'name'
         val = value.replace(', ', ',').split(',')
         qs = self.queryset.all().filter(**{'%s__in' % key: val})
         return qs
+
 
     def to_python(self, value):
         tags_list = []
@@ -104,3 +109,8 @@ class TagsField(ModelChoiceField):
                     tags_list.append(tag)
         print "tags_list " + tags_list
         return tags_list
+
+        if not value:
+            return []
+        return list(self._check_values(value))
+

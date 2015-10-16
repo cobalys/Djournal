@@ -20,7 +20,9 @@ This file is part of Djournal.
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin import widgets, helpers
-from django.contrib.admin.options import csrf_protect_m
+from django.contrib.admin.options import csrf_protect_m, \
+    get_content_type_for_model
+from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
 from django.contrib.admin.views.main import TO_FIELD_VAR, IS_POPUP_VAR
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
@@ -32,14 +34,15 @@ from django.http.response import Http404
 from django.template.response import TemplateResponse
 from django.utils.encoding import force_text
 from django.utils.html import escape
+from django.utils.translation import ugettext as _
 
+from django.contrib.admin.exceptions import DisallowedModelAdminToField
 from django.contrib.admin.utils import unquote, flatten_fieldsets, \
     get_deleted_objects, model_format_dict
 from django.forms.utils import flatatt
 from djournal import djournal_settings
 from djournal.fields import TagsField, TagsWidget
 from djournal.models import Entry, Tag
-from django.utils.translation import ugettext as _
 
 
 def publish(modeladmin, request, queryset):

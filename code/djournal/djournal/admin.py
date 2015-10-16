@@ -143,9 +143,6 @@ class EntryAdmin(admin.ModelAdmin):
             "admin/change_form.html"
         ], context)
 
-
-
-
     @csrf_protect_m
     @transaction.atomic
     def changeform_view(self, request, object_id=None, form_url='', extra_context=None):

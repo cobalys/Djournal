@@ -102,4 +102,5 @@ class TagsField(ModelChoiceField):
                 if len(tag_name):
                     tag = Tag.objects.get_or_create(name=tag_name)
                     tags_list.append(tag)
+        print "tags_list " + tags_list
         return tags_list

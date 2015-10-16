@@ -89,7 +89,7 @@ class DateSidebarNode(template.Node):
                          "WHERE published = 1 " \
                          "GROUP BY strftime('%Y', creation_date), " \
                          "strftime('%m', creation_date) " \
-                         "ORDER BY year DESC, month"
+                         "ORDER BY creation_date"
                 cursor.execute(select)
             elif settings.DATABASES['default']['ENGINE'] == 'django.db.backends.oracle':
                 cursor.execute("SELECT COUNT(*) AS total, " \

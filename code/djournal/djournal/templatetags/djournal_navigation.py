@@ -84,12 +84,12 @@ class DateSidebarNode(template.Node):
                                "ORDER BY year DESC, month")
             elif settings.DATABASES['default']['ENGINE'] == 'django.db.backends.sqlite3':
                 select = "SELECT COUNT(*) AS total, " \
-                         "strftime('%%m', creation_date) AS month, " \
-                         "strftime('%%Y', creation_date) AS year " \
+                         "strftime('%m', creation_date) AS month, " \
+                         "strftime('%Y', creation_date) AS year " \
                          "FROM djournal_entry v " \
                          "WHERE published = 1 " \
-                         "GROUP BY strftime('%%Y', creation_date), " \
-                         "strftime('%%m', creation_date) " \
+                         "GROUP BY strftime('%Y', creation_date), " \
+                         "strftime('%m', creation_date) " \
                          "ORDER BY year DESC, month"
                 cursor.execute(select)
             elif settings.DATABASES['default']['ENGINE'] == 'django.db.backends.oracle':

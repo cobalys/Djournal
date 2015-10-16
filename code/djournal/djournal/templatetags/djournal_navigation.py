@@ -112,8 +112,8 @@ class DateSidebarNode(template.Node):
             year_dict = {}
             for row in cursor.fetchall():
                 total = int(row[0])
-                month_number = int(row[1])
-                year_number = int(row[1])
+                month_number = int(row[1].month)
+                year_number = int(row[1].year)
                 month_name = get_month_name(month_number)
                 item = [month_number, month_name, total]
                 if year_number in year_dict:

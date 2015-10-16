@@ -378,7 +378,7 @@ class TagAdmin(admin.ModelAdmin):
         js = (djournal_settings.JQUERY_URL,
               djournal_settings.JQUERYUI_URL,
               "%s%s" % (settings.STATIC_URL, 'admin/js/urlify.js'),
-              "%s%s" % (settings.STATIC_URL, 'djournal/admin/js/djournal-tags.js')
+              "%s%s" % (settings.STATIC_URL, 'djournal/admin/js/djournal-tag.js')
               )
 
 admin.site.register(Entry, EntryAdmin)

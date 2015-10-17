@@ -29,6 +29,7 @@ class TagsWidget(Widget):
         if value != '':
             final_attrs['value'] = ', '.join([v for k, v in self.choices])
         choices_json = str([str(v) for k, v in self.choices])
+        logger.debug(choices_json)
         html_template = '''
                         <input%s />
                         <script type="text/javascript">

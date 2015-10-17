@@ -1,7 +1,4 @@
 import os
-import sys
-
-
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 PROJECT_PARENT_PATH = os.path.abspath(os.path.join(PROJECT_PATH, "../"))
 PROJECT_GRANDPARENT_PATH = os.path.abspath(os.path.join(PROJECT_PATH, "../../"))
@@ -24,7 +21,7 @@ except ImportError:
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    #('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
@@ -98,11 +95,6 @@ LOGGING = {
         }
     },
     'handlers': {
-        'console': {
-            'level':'DEBUG',
-            'class':'logging.StreamHandler',
-            'strm': sys.stdout
-        },
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
@@ -110,10 +102,7 @@ LOGGING = {
         }
     },
     'loggers': {
-      'django': {
-            'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
-        },'django.request': {
+        'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': True,

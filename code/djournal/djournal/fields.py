@@ -1,9 +1,10 @@
 from django.core.exceptions import ValidationError
-from django.forms.models import ModelChoiceField
-from django.forms.utils import flatatt
+from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
 from django.forms.widgets import Widget, SelectMultiple, MultipleHiddenInput
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
+
+from django.forms.utils import flatatt
 from djournal.models import Tag
 
 
@@ -62,7 +63,7 @@ class TagsWidget(Widget):
         return  mark_safe(html_template)
 
 
-class TagsField(ModelChoiceField):
+class TagsField(ModelMultipleChoiceField):
     """A MultipleChoiceField whose choices are a model QuerySet."""
     widget = SelectMultiple
     hidden_widget = MultipleHiddenInput
@@ -97,7 +98,6 @@ class TagsField(ModelChoiceField):
         qs = self.queryset.all().filter(**{'%s__in' % key: val})
         return qs
 
-
     def to_python(self, value):
         tags_list = []
         if value.strip():
@@ -110,7 +110,4 @@ class TagsField(ModelChoiceField):
         print "tags_list " + tags_list
         return tags_list
 
-        if not value:
-            return []
-        return list(self._check_values(value))
 

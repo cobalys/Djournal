@@ -82,24 +82,14 @@ class TagsField(ModelMultipleChoiceField):
             *args, **kwargs)
 
 
-    def clean(self, value):
-        if self.required and not value:
-            raise ValidationError(self.error_messages['required'], code='required')
-        elif not self.required and not value:
-            return self.queryset.none()
-        if not isinstance(value, (list, tuple)):
-            raise ValidationError(self.error_messages['list'], code='list')
-        qs = self._check_values(value)
-        # Since this overrides the inherited ModelChoiceField.clean
-        # we run custom validators here
-        self.run_validators(value)
-        key = 'name'
-        val = value.replace(', ', ',').split(',')
-        qs = self.queryset.all().filter(**{'%s__in' % key: val})
-        print "clean " + qs 
-        return qs
-
     def to_python(self, value):
+        print "to_python"
+        if isinstance(value, list):
+            return value
+
+        if value is None:
+            return value
+
         tags_list = []
         if value.strip():
             tags = value.lower().split(',')
@@ -110,5 +100,4 @@ class TagsField(ModelMultipleChoiceField):
                     tags_list.append(tag)
         print "tags_list " + tags_list
         return tags_list
-
 

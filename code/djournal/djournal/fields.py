@@ -14,10 +14,10 @@ class TagsWidget(Widget):
 
     def __init__(self, choices, *args, **kwargs):
         self.choices = choices
-        print choices
         super(TagsWidget, self).__init__(*args, **kwargs)
 
     def render(self, name, value, attrs=None):
+        print self.choices
         if value is None:
             value = ()
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)

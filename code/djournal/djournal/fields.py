@@ -80,7 +80,7 @@ class TagsField(ModelMultipleChoiceField):
         super(TagsField, self).__init__(queryset, None,
             cache_choices, required, widget, label, initial, help_text,
             *args, **kwargs)
-        print "Choises " + list(self.widget.choices)
+        print("Choices ")
 
     def clean(self, value):
         if self.required and not value:

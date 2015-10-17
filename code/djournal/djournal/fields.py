@@ -96,8 +96,8 @@ class TagsField(ModelMultipleChoiceField):
             raise ValidationError(self.error_messages['required'], code='required')
         elif not self.required and not value:
             return self.queryset.none()
-        if not isinstance(value, (list, tuple)):
-            raise ValidationError(self.error_messages['list'], code='list')
+ #       if not isinstance(value, (list, tuple)):
+ #           raise ValidationError(self.error_messages['list'], code='list')
         print "clean check"
         qs = self._check_values(value)
         # Since this overrides the inherited ModelChoiceField.clean

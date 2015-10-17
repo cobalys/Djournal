@@ -113,7 +113,6 @@ class TagsField(ModelMultipleChoiceField):
         corresponding objects. Raises a ValidationError if a given value is
         invalid (not a valid PK, not in the queryset, etc.)
         """
-        print "_check_values " 
         key = 'name'
         tags_list = []
         if value.strip():
@@ -152,7 +151,6 @@ class TagsField(ModelMultipleChoiceField):
                     code='invalid_choice',
                     params={'value': val},
                 )
-        print "_check_values " + qs
         return qs
 
 

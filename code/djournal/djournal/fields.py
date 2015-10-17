@@ -84,7 +84,7 @@ class TagsField(ModelMultipleChoiceField):
 
 
     def clean(self, value):
-        print "clean"
+        print "clean " + value
         if self.required and not value:
             raise ValidationError(self.error_messages['required'], code='required')
         elif not self.required and not value:

@@ -96,6 +96,7 @@ class TagsField(ModelMultipleChoiceField):
         key = 'name'
         val = value.replace(', ', ',').split(',')
         qs = self.queryset.all().filter(**{'%s__in' % key: val})
+        print "clean " + qs 
         return qs
 
     def to_python(self, value):

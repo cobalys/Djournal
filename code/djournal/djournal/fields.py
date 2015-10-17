@@ -1,3 +1,5 @@
+import logging
+
 from django.core.exceptions import ValidationError
 from django.forms.models import ModelMultipleChoiceField
 from django.forms.widgets import Widget, SelectMultiple, MultipleHiddenInput
@@ -9,6 +11,9 @@ from django.forms.utils import flatatt
 from djournal.models import Tag
 
 
+logger = logging.getLogger(__name__)
+
+
 class TagsWidget(Widget):
     input_type = "text"
 
@@ -17,7 +22,7 @@ class TagsWidget(Widget):
         super(TagsWidget, self).__init__(*args, **kwargs)
 
     def render(self, name, value, attrs=None):
-        print "render"
+        logger.info(self.choices)
         if value is None:
             value = ()
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)

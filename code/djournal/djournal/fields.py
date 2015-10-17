@@ -66,7 +66,7 @@ class TagsWidget(Widget):
 
 class TagsField(ModelMultipleChoiceField):
     """A MultipleChoiceField whose choices are a model QuerySet."""
-    widget = TagsWidget
+    widget = SelectMultiple
     hidden_widget = MultipleHiddenInput
     default_error_messages = {
         'list': _('Enter a list of values.'),

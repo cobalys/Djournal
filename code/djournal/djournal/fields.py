@@ -83,12 +83,30 @@ class TagsField(ModelMultipleChoiceField):
             *args, **kwargs)
 
 
+    def clean(self, value):
+        print "clean"
+        if self.required and not value:
+            raise ValidationError(self.error_messages['required'], code='required')
+        elif not self.required and not value:
+            return self.queryset.none()
+        if not isinstance(value, (list, tuple)):
+            raise ValidationError(self.error_messages['list'], code='list')
+        print "clean check"
+        qs = self._check_values(value)
+        # Since this overrides the inherited ModelChoiceField.clean
+        # we run custom validators here
+        print "clean validators"
+        self.run_validators(value)
+        return qs
+
+
     def _check_values(self, value):
         """
         Given a list of possible PK values, returns a QuerySet of the
         corresponding objects. Raises a ValidationError if a given value is
         invalid (not a valid PK, not in the queryset, etc.)
         """
+        print "_check_values " 
         key = 'name'
         tags_list = []
         if value.strip():

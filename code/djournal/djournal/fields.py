@@ -121,7 +121,7 @@ class TagsField(ModelMultipleChoiceField):
             for tag_name in tags:
                 tag_name = tag_name.strip()
                 if len(tag_name):
-                    tag = Tag.objects.get_or_create(name=tag_name)
+                    tag, result = Tag.objects.get_or_create(name=tag_name)
                     tags_list.append(tag)
         value = tags_list
         # deduplicate given values to avoid creating many querysets or

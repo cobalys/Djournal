@@ -21,7 +21,7 @@ except ImportError:
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ADMINS = (
-    #('Your Name', 'your_email@example.com'),
+    # ('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
@@ -95,6 +95,9 @@ LOGGING = {
         }
     },
     'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
@@ -102,7 +105,10 @@ LOGGING = {
         }
     },
     'loggers': {
-        'django.request': {
+      'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+        },'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': True,

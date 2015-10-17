@@ -22,7 +22,7 @@ class TagsWidget(Widget):
         super(TagsWidget, self).__init__(*args, **kwargs)
 
     def render(self, name, value, attrs=None):
-        logger.info(self.choices)
+        logger.debug(self.choices)
         if value is None:
             value = ()
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)

@@ -22,7 +22,6 @@ class TagsWidget(Widget):
         if value is None:
             value = ()
         print value
-        print self.choices
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
         if value != '':
             final_attrs['value'] = ', '.join([v for k, v in self.choices if k in value])

@@ -11,9 +11,6 @@ from django.forms.utils import flatatt
 from djournal.models import Tag
 
 
-logger = logging.getLogger(__name__)
-
-
 class TagsWidget(Widget):
     input_type = "text"
 
@@ -22,14 +19,12 @@ class TagsWidget(Widget):
         super(TagsWidget, self).__init__(*args, **kwargs)
 
     def render(self, name, value, attrs=None):
-        logger.debug(self.choices)
         if value is None:
             value = ()
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
         if value != '':
             final_attrs['value'] = ', '.join([v for k, v in self.choices])
         choices_json = str([str(v) for k, v in self.choices])
-        logger.debug(choices_json)
         html_template = '''
                         <input%s />
                         <script type="text/javascript">
@@ -85,7 +80,7 @@ class TagsField(ModelMultipleChoiceField):
         super(TagsField, self).__init__(queryset, None,
             cache_choices, required, widget, label, initial, help_text,
             *args, **kwargs)
-
+        print "Choises " + list(self.widget.choices)
 
     def clean(self, value):
         if self.required and not value:

@@ -1,4 +1,7 @@
 import os
+import sys
+
+
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 PROJECT_PARENT_PATH = os.path.abspath(os.path.join(PROJECT_PATH, "../"))
 PROJECT_GRANDPARENT_PATH = os.path.abspath(os.path.join(PROJECT_PATH, "../../"))
@@ -96,7 +99,9 @@ LOGGING = {
     },
     'handlers': {
         'console': {
-            'class': 'logging.StreamHandler',
+            'level':'DEBUG',
+            'class':'logging.StreamHandler',
+            'strm': sys.stdout
         },
         'mail_admins': {
             'level': 'ERROR',

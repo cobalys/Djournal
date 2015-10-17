@@ -23,7 +23,7 @@ class TagsWidget(Widget):
             value = ()
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
         if value != '':
-            final_attrs['value'] = ', '.join([v for k, v in self.choices])
+            final_attrs['value'] = ', '.join([v for k, v in self.choices if k in value])
         choices_json = str([str(v) for k, v in self.choices])
         html_template = '''
                         <input%s />
@@ -80,7 +80,7 @@ class TagsField(ModelMultipleChoiceField):
         super(TagsField, self).__init__(queryset, None,
             cache_choices, required, widget, label, initial, help_text,
             *args, **kwargs)
-        print("Choices ")
+
 
     def clean(self, value):
         if self.required and not value:

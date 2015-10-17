@@ -147,8 +147,11 @@ class TagsField(ModelMultipleChoiceField):
         pks = set(force_text(getattr(o, key)) for o in qs)
         for val in value:
             if force_text(val) not in pks:
-                print force_text(val)
-                print pks
+                raise ValidationError(
+                    self.error_messages['invalid_choice'],
+                    code='invalid_choice',
+                    params={'value': val},
+                )
         print "_check_values " + qs
         return qs
 

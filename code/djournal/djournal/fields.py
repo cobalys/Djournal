@@ -17,7 +17,13 @@ class TagsWidget(Widget):
         super(TagsWidget, self).__init__(*args, **kwargs)
 
     def value_from_datadict(self, data, files, name):
-        return getattr(data, name, None)
+        """
+        Given a dictionary of data and this widget's name, returns the value
+        of this widget. Returns None if it's not provided.
+        """
+        print data
+        print name
+        return data.get(name, None)
 
     def render(self, name, value, attrs=None):
         if value is None:

@@ -57,7 +57,6 @@ class EntryAdminForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(EntryAdminForm, self).__init__(*args, **kwargs)
         choices = self.fields['tags'].widget.choices
-        print "    " 
         queryset = self.fields['tags'].queryset
         required = self.fields['tags'].required
         self.fields['tags'] = TagsField(queryset, required=required)

@@ -14,6 +14,7 @@ class TagsWidget(Widget):
 
     def __init__(self, choices, *args, **kwargs):
         self.choices = choices
+        print choices
         super(TagsWidget, self).__init__(*args, **kwargs)
 
     def render(self, name, value, attrs=None):

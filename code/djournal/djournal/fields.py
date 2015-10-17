@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
+from django.forms.models import ModelMultipleChoiceField
 from django.forms.widgets import Widget, SelectMultiple, MultipleHiddenInput
 from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
@@ -16,20 +16,10 @@ class TagsWidget(Widget):
         self.choices = choices
         super(TagsWidget, self).__init__(*args, **kwargs)
 
-    def value_from_datadict(self, data, files, name):
-        """
-        Given a dictionary of data and this widget's name, returns the value
-        of this widget. Returns None if it's not provided.
-        """
-        print data
-        print name
-        return data.get(name, None)
-
     def render(self, name, value, attrs=None):
         if value is None:
             value = ()
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
-        print dict(self.choices)
         if value != '':
             final_attrs['value'] = ', '.join([v for k, v in self.choices])
         choices_json = str([str(v) for k, v in self.choices])
@@ -91,18 +81,15 @@ class TagsField(ModelMultipleChoiceField):
 
 
     def clean(self, value):
-        print "clean " + value
         if self.required and not value:
             raise ValidationError(self.error_messages['required'], code='required')
         elif not self.required and not value:
             return self.queryset.none()
  #       if not isinstance(value, (list, tuple)):
  #           raise ValidationError(self.error_messages['list'], code='list')
-        print "clean check"
         qs = self._check_values(value)
         # Since this overrides the inherited ModelChoiceField.clean
         # we run custom validators here
-        print "clean validators"
         self.run_validators(value)
         return qs
 
@@ -155,7 +142,6 @@ class TagsField(ModelMultipleChoiceField):
 
 
     def to_python(self, value):
-        print "to_python"
         if isinstance(value, list):
             return value
 
@@ -170,6 +156,4 @@ class TagsField(ModelMultipleChoiceField):
                 if len(tag_name):
                     tag = Tag.objects.get_or_create(name=tag_name)
                     tags_list.append(tag)
-        print "tags_list " + tags_list
         return tags_list
-

@@ -29,7 +29,7 @@ class TagsWidget(Widget):
         if value is None:
             value = ()
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
-        print self.choices
+        print list(self.choices)
         if value != '':
             final_attrs['value'] = ', '.join([v for k, v in self.choices if k in value])
         choices_json = str([str(v) for k, v in self.choices])

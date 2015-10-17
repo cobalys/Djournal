@@ -23,7 +23,7 @@ class TagsWidget(Widget):
             value = ()
         final_attrs = self.build_attrs(attrs, type=self.input_type, name=name)
         if value != '':
-            final_attrs['value'] = ', '.join([v for k, v in self.choices if k in value])
+            final_attrs['value'] = value#', '.join([v for k, v in self.choices if k in value])
         choices_json = str([str(v) for k, v in self.choices])
         html_template = '''
                         <input%s />

@@ -69,9 +69,9 @@ class TagsField(ModelMultipleChoiceField):
     hidden_widget = MultipleHiddenInput
     default_error_messages = {
         'list': _('Enter a list of values.'),
-        'invalid_choice': _('Select a valid choice. %s is not one of the'
+        'invalid_choice': _('Select a valid choice. %(value)s is not one of the'
                             ' available choices.'),
-        'invalid_pk_value': _('"%s" is not a valid value for a primary key.')
+        'invalid_pk_value': _('"%(pk)s" is not a valid value for a primary key.')
     }
 
     def __init__(self, queryset, cache_choices=None, required=True,
@@ -81,6 +81,19 @@ class TagsField(ModelMultipleChoiceField):
             cache_choices, required, widget, label, initial, help_text,
             *args, **kwargs)
 
+    def clean(self, value):
+        print "clean"
+        if self.required and not value:
+            raise ValidationError(self.error_messages['required'], code='required')
+        elif not self.required and not value:
+            return self.queryset.none()
+        if not isinstance(value, (list, tuple)):
+            raise ValidationError(self.error_messages['list'], code='list')
+        qs = self._check_values(value)
+        # Since this overrides the inherited ModelChoiceField.clean
+        # we run custom validators here
+        self.run_validators(value)
+        return qs
 
     def to_python(self, value):
         print "to_python"

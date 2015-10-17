@@ -61,7 +61,7 @@ class EntryAdminForm(ModelForm):
         queryset = self.fields['tags'].queryset
         required = self.fields['tags'].required
         self.fields['tags'] = TagsField(queryset, required=required)
-        #self.fields['tags'].widget = TagsWidget(choices)  # = ModelMultipleChoiceField(kwargs['instance'].tags)#kwargs['instance'].tags)
+        self.fields['tags'].widget = TagsWidget(choices)
         print str(self.fields)
 
     class Meta:

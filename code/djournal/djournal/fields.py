@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
 from django.forms.widgets import Widget, SelectMultiple, MultipleHiddenInput
+from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
@@ -81,19 +82,54 @@ class TagsField(ModelMultipleChoiceField):
             cache_choices, required, widget, label, initial, help_text,
             *args, **kwargs)
 
-    def clean(self, value):
-        print "clean"
-        if self.required and not value:
-            raise ValidationError(self.error_messages['required'], code='required')
-        elif not self.required and not value:
-            return self.queryset.none()
-        if not isinstance(value, (list, tuple)):
-            raise ValidationError(self.error_messages['list'], code='list')
-        qs = self._check_values(value)
-        # Since this overrides the inherited ModelChoiceField.clean
-        # we run custom validators here
-        self.run_validators(value)
+
+    def _check_values(self, value):
+        """
+        Given a list of possible PK values, returns a QuerySet of the
+        corresponding objects. Raises a ValidationError if a given value is
+        invalid (not a valid PK, not in the queryset, etc.)
+        """
+        key = 'name'
+        tags_list = []
+        if value.strip():
+            tags = value.lower().split(',')
+            for tag_name in tags:
+                tag_name = tag_name.strip()
+                if len(tag_name):
+                    tag = Tag.objects.get_or_create(name=tag_name)
+                    tags_list.append(tag)
+        value = tags_list
+        # deduplicate given values to avoid creating many querysets or
+        # requiring the database backend deduplicate efficiently.
+        try:
+            value = frozenset(value)
+        except TypeError:
+            # list of lists isn't hashable, for example
+            raise ValidationError(
+                self.error_messages['list'],
+                code='list',
+            )
+        for pk in value:
+            try:
+                self.queryset.filter(**{key: pk})
+            except (ValueError, TypeError):
+                raise ValidationError(
+                    self.error_messages['invalid_pk_value'],
+                    code='invalid_pk_value',
+                    params={'pk': pk},
+                )
+        qs = self.queryset.filter(**{'%s__in' % key: value})
+        pks = set(force_text(getattr(o, key)) for o in qs)
+        for val in value:
+            if force_text(val) not in pks:
+                raise ValidationError(
+                    self.error_messages['invalid_choice'],
+                    code='invalid_choice',
+                    params={'value': val},
+                )
+        print "_check_values " + qs
         return qs
+
 
     def to_python(self, value):
         print "to_python"
